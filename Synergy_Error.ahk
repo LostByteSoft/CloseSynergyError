@@ -11,10 +11,10 @@
 
 	SetWorkingDir, %A_ScriptDir%
 
-	SetEnv, title, Synergy Error
-	SetEnv, mode, Close Synergy error(s)
+	SetEnv, title, CloseSynergyError
+	SetEnv, mode, Close Synergy error(s) SynergyInstaller-1.3.1
 	SetEnv, Author, LostByteSoft
-	SetEnv, version, Version 2018-03-21-1158
+	SetEnv, version, Version 2018-03-24-1851
 	SetEnv, icofolder, C:\Program Files\Common Files
 	SetEnv, logoicon, Synergy_Error.ico
 	SetENv, debug, 0
@@ -25,15 +25,16 @@
 	;; Common ico
 	FileInstall, ico_about.ico, %icofolder%\ico_about.ico, 0
 	FileInstall, ico_lock.ico, %icofolder%\ico_lock.ico, 0
+	FileInstall, ico_shut.ico, %icofolder%\ico_shut.ico, 0
 	FileInstall, ico_options.ico, %icofolder%\ico_options.ico, 0
 	FileInstall, ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
 	FileInstall, ico_shut.ico, %icofolder%\ico_shut.ico, 0
 	FileInstall, ico_debug.ico, %icofolder%\ico_debug.ico, 0
 	FileInstall, ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
 	FileInstall, ico_pause.ico, %icofolder%\ico_pause.ico, 0
-	FileInstall, ico_loupe.ico, %icofolder%\ico_loupe.ico, 0
+	FileInstall, ico_folder.ico, %icofolder%\ico_folder.ico, 0
 
-;;--- Tray options
+;;--- Menu Tray options ---
 
 	Menu, Tray, NoStandard
 	Menu, tray, add, ---=== %title% ===---, about
@@ -41,28 +42,32 @@
 	Menu, tray, add, Show logo, GuiLogo
 	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program.
 	Menu, Tray, Icon, Secret MsgBox, %icofolder%\ico_lock.ico
-	Menu, tray, add, About && ReadMe, author
+	Menu, tray, add, About && ReadMe, author				; infos about author
 	Menu, Tray, Icon, About && ReadMe, %icofolder%\ico_about.ico
-	Menu, tray, add, Author %author%, about
+	Menu, tray, add, Author %author%, about					; author msg box
 	menu, tray, disable, Author %author%
-	Menu, tray, add, %version%, about
+	Menu, tray, add, %version%, about					; version of the software
 	menu, tray, disable, %version%
-	;menu, tray, add, Show Gui, start					; Default gui
-	;Menu, Tray, Icon, Show Gui, %icofolder%\ico_loupe.ico
-	;Menu, Tray, Default, Show Gui
-	;Menu, Tray, Click, 1
+	Menu, tray, add, Open project web page, webpage				; open web page project
+	Menu, Tray, Icon, Open project web page, %icofolder%\ico_HotKeys.ico
 	Menu, tray, add,
 	Menu, tray, add, --== Control ==--, about
 	Menu, Tray, Icon, --== Control ==--, %icofolder%\ico_options.ico
+	;menu, tray, add, Show Gui (Same as click), start			; Default gui open
+	;Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
+	;Menu, Tray, Default, Show Gui (Same as click)
+	;Menu, Tray, Click, 1
+	Menu, tray, add, Set Debug (Toggle), debug				; debug msg
+	Menu, Tray, Icon, Set Debug (Toggle), %icofolder%\ico_debug.ico
+	Menu, tray, add, Open A_WorkingDir, A_WorkingDir			; open where the exe is
+	Menu, Tray, Icon, Open A_WorkingDir, %icofolder%\ico_folder.ico
+	Menu, tray, add,
 	Menu, tray, add, Exit %title%, ExitApp					; Close exit program
 	Menu, Tray, Icon, Exit %title%, %icofolder%\ico_shut.ico
 	Menu, tray, add, Refresh (Ini mod), doReload 				; Reload the script.
 	Menu, Tray, Icon, Refresh (Ini mod), %icofolder%\ico_reboot.ico
-	Menu, tray, add, Set Debug (Toggle), debug
-	Menu, Tray, Icon, Set Debug (Toggle), %icofolder%\ico_debug.ico
-	Menu, tray, add, Pause (Toggle), pause
+	Menu, tray, add, Pause (Toggle), pause					; pause the script
 	Menu, Tray, Icon, Pause (Toggle), %icofolder%\ico_pause.ico
-	Menu, tray, add, Open A_WorkingDir, A_WorkingDir
 	Menu, tray, add,
 	Menu, tray, add, --== Options ==--, about
 	Menu, Tray, Icon, --== Options ==--, %icofolder%\ico_options.ico
@@ -202,6 +207,10 @@ GuiLogo:
 A_WorkingDir:
 	IfEqual, debug, 1, msgbox, run, explorer.exe "%A_WorkingDir%"
 	run, explorer.exe "%A_WorkingDir%"
+	Return
+
+webpage:
+	run, https://github.com/LostByteSoft/%title%
 	Return
 
 ;;--- End of script ---
