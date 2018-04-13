@@ -14,13 +14,13 @@
 	SetEnv, title, CloseSynergyError
 	SetEnv, mode, Close Synergy error(s) SynergyInstaller-1.3.1
 	SetEnv, Author, LostByteSoft
-	SetEnv, version, Version 2018-03-24-1851
+	SetEnv, version, Version 2018-04-13-1506
 	SetEnv, icofolder, C:\Program Files\Common Files
-	SetEnv, logoicon, Synergy_Error.ico
+	SetEnv, logoicon, ico_Synergy.ico
 	SetENv, debug, 0
 
 	;; Specific Icons (or files)
-	FileInstall, Synergy_Error.ico, %icofolder%\Synergy_Error.ico, 0
+	FileInstall, ico_Synergy.ico, %icofolder%\ico_Synergy.ico, 0
 
 	;; Common ico
 	FileInstall, ico_about.ico, %icofolder%\ico_about.ico, 0
@@ -53,10 +53,10 @@
 	Menu, tray, add,
 	Menu, tray, add, --== Control ==--, about
 	Menu, Tray, Icon, --== Control ==--, %icofolder%\ico_options.ico
-	;menu, tray, add, Show Gui (Same as click), start			; Default gui open
-	;Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
-	;Menu, Tray, Default, Show Gui (Same as click)
-	;Menu, Tray, Click, 1
+	menu, tray, add, Show Gui (Same as click), author			; Default gui open
+	Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
+	Menu, Tray, Default, Show Gui (Same as click)
+	Menu, Tray, Click, 1
 	Menu, tray, add, Set Debug (Toggle), debug				; debug msg
 	Menu, Tray, Icon, Set Debug (Toggle), %icofolder%\ico_debug.ico
 	Menu, tray, add, Open A_WorkingDir, A_WorkingDir			; open where the exe is
@@ -71,6 +71,8 @@
 	Menu, tray, add,
 	Menu, tray, add, --== Options ==--, about
 	Menu, Tray, Icon, --== Options ==--, %icofolder%\ico_options.ico
+	Menu, tray, add, No options, about					; author msg box
+	menu, tray, disable, No options
 	menu, tray, add,
 	Menu, Tray, Tip, %title% %mode%
 
