@@ -2,6 +2,7 @@
 
 ;; Just wait Synergy error(s) and close it
 ;; Work with SynergyInstaller-1.3.1.exe
+;; Version 2018-04-16 was the last version !!! I switch to version synergy-1.4.16-r1969-Windows-x64.exe for compatibility with linux.
 
 ;;--- Softwares options ---
 
@@ -14,7 +15,7 @@
 	SetEnv, title, CloseSynergyError
 	SetEnv, mode, Close Synergy error(s) SynergyInstaller-1.3.1
 	SetEnv, Author, LostByteSoft
-	SetEnv, version, Version 2018-04-13-1506
+	SetEnv, version, Version 2018-04-16-0907
 	SetEnv, icofolder, C:\Program Files\Common Files
 	SetEnv, logoicon, ico_Synergy.ico
 	SetENv, debug, 0
@@ -23,16 +24,16 @@
 	FileInstall, ico_Synergy.ico, %icofolder%\ico_Synergy.ico, 0
 
 	;; Common ico
-	FileInstall, ico_about.ico, %icofolder%\ico_about.ico, 0
-	FileInstall, ico_lock.ico, %icofolder%\ico_lock.ico, 0
-	FileInstall, ico_shut.ico, %icofolder%\ico_shut.ico, 0
-	FileInstall, ico_options.ico, %icofolder%\ico_options.ico, 0
-	FileInstall, ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
-	FileInstall, ico_shut.ico, %icofolder%\ico_shut.ico, 0
-	FileInstall, ico_debug.ico, %icofolder%\ico_debug.ico, 0
-	FileInstall, ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
-	FileInstall, ico_pause.ico, %icofolder%\ico_pause.ico, 0
-	FileInstall, ico_folder.ico, %icofolder%\ico_folder.ico, 0
+	FileInstall, SharedIcons\ico_about.ico, %icofolder%\ico_about.ico, 0
+	FileInstall, SharedIcons\ico_lock.ico, %icofolder%\ico_lock.ico, 0
+	FileInstall, SharedIcons\ico_options.ico, %icofolder%\ico_options.ico, 0
+	FileInstall, SharedIcons\ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
+	FileInstall, SharedIcons\ico_shut.ico, %icofolder%\ico_shut.ico, 0
+	FileInstall, SharedIcons\ico_debug.ico, %icofolder%\ico_debug.ico, 0
+	FileInstall, SharedIcons\ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
+	FileInstall, SharedIcons\ico_pause.ico, %icofolder%\ico_pause.ico, 0
+	FileInstall, SharedIcons\ico_loupe.ico, %icofolder%\ico_loupe.ico, 0
+	FileInstall, SharedIcons\ico_folder.ico, %icofolder%\ico_folder.ico, 0
 
 ;;--- Menu Tray options ---
 
@@ -79,9 +80,8 @@
 ;;--- Software start here ---
 
 start:
-
-	Menu, Tray, Tip, %mode% In search for S or C. (Sleep 5 sec)
-	Sleep, 5000		; for sure the synergy soft has time for loading
+	Menu, Tray, Tip, Close Synergy error`nIn search for Server or Client.`n(Sleep 3 sec)
+	Sleep, 3000		; for sure the synergy soft has time for loading
 
 If ProcessExist("Synergys.exe")
 	goto, server
@@ -94,12 +94,12 @@ If ProcessExist("Synergys.exe")
 		return Errorlevel
 	}
 
-	IfEqual, debug, 1, MsgBox, Wait 30 sec.
+	IfEqual, debug, 1, MsgBox, Wait 30 sec. Loop mode for searching (Server or Client)
 	sleep, 30000
 	goto, start
 
 server:
-	Menu, Tray, Tip, %mode% Running = Server
+	Menu, Tray, Tip, Close Synergy error`nRunning = Server`n`nLocalIp = %A_IPAddress1%`nName = %A_ComputerName%
 	SetEnv, running, Server
 	IfEqual, debug, 1, MsgBox Synergys.exe exists. If ProcessExist("Synergys.exe")
 	WinWait, Synergy 1.3.1 Server
@@ -108,7 +108,7 @@ server:
 	goto, server
 
 client:
-	Menu, Tray, Tip, %mode% Running = Client
+	Menu, Tray, Tip, Close Synergy error`nRunning = Client`n`nLocalIp = %A_IPAddress1%`nName = %A_ComputerName%
 	SetEnv, running, Client
 	IfEqual, debug, 1, MsgBox Synergyc.exe exists. If ProcessExist("Synergyc.exe")
 	WinWait, Synergy 1.3.1 Client
@@ -144,7 +144,7 @@ pause:
 	goto, sleep
 
 	unpaused:	
-	Menu, Tray, Icon, %logoicon%
+	Menu, Tray, Icon, %icofolder%\%logoicon%
 	SetEnv, pause, 0
 	Goto, start
 
